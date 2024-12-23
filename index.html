@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Omelette Master Chef Challenge</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #fff7e6;
+            text-align: center;
+            margin: 0;
+            padding: 0;
+        }
+
+        #game-container {
+            margin: 50px auto;
+            padding: 20px;
+            border: 3px solid #ff6f00;
+            border-radius: 10px;
+            background-color: #fff;
+            width: 350px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        h1 {
+            color: #ff6f00;
+        }
+
+        button {
+            margin: 10px;
+            padding: 12px;
+            font-size: 18px;
+            color: white;
+            background-color: #ff6f00;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        button:hover {
+            background-color: #e65c00;
+        }
+
+        #timer, #score {
+            margin-top: 20px;
+        }
+
+        #timer h2, #score h2 {
+            color: #333;
+        }
+
+        #challenge {
+            font-size: 16px;
+            color: #555;
+        }
+    </style>
+</head>
+<body>
+    <div id="game-container">
+        <h1>🍳 Omelette Master Chef Challenge 🍳</h1>
+
+        <div id="ingredients">
+            <h2>Select Your Ingredients</h2>
+            <button onclick="selectIngredient('Cheese')"> Cheese</button>
+            <button onclick="selectIngredient('Tomato')"> Tomato</button>
+            <button onclick="selectIngredient('Bell Pepper')">Bell Pepper</button>
+            <button onclick="selectIngredient('Bacon')">Bacon</button>
+            <button onclick="selectIngredient('Onions')">Onions</button>
+            <button onclick="selectIngredient('Eggs')">Eggs</button>
+            <button onclick="selectIngredient('Butter')">Butter</button>
+        </div>
+        <div id="cooking-challenge">
+            <h2>Cooking Challenge</h2>
+            <p id="challenge">Flip your omelette within the time limit!</p>
+            <button id="flip-button" onclick="flipOmelette()">Flip the Omelette!</button>
+        </div>
+        <div id="timer">
+            <h2>Time Left: <span id="time-left">30</span>s</h2>
+        </div>
+        <div id="score">
+            <h2>Your Score: <span id="score-value">0</span></h2>
+        </div>
+    </div>
+    <script>
+        let score = 0;
+        let ingredients = [];
+        let timeLeft = 20;
+        let timerInterval;
+
+        function selectIngredient(ingredient) {
+            ingredients.push(ingredient);
+            alert(`${ingredient} added to your omelette!`);
+        }
+
+        function flipOmelette() {
+            if (timeLeft > 0) {
+                const success = Math.random() > 0.3; // 70% chance of success
+                if (success) {
+                    score += 10;
+                    alert("🎉 Omelette flipped successfully!");
+                } else {
+                    alert("😢 Oops! The omelette fell!");
+                }
+                updateScore();
+            } else {
+                alert("⏰ Time's up! You can't flip anymore.");
+            }
+        }
+
+        function updateScore() {
+            document.getElementById("score-value").innerText = score;
+        }
+
+        function startTimer() {
+            timerInterval = setInterval(() => {
+                timeLeft--;
+                document.getElementById("time-left").innerText = timeLeft;
+
+                if (timeLeft <= 0) {
+                    clearInterval(timerInterval);
+                    endGame();
+                }
+            }, 1000);
+        }
+
+        function endGame() {
+            alert(`🏆 Game Over! Your final score is: ${score}. Ingredients used: ${ingredients.join(", ")}`);
+            window.location.href = "endgame.html";  // Redirect to the new page when time runs out
+        }
+
+        // Start the game
+        startTimer();
+    </script>
+</body>
+</html>
